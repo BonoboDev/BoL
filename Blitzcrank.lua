@@ -105,7 +105,7 @@ end
 local isHere = SCRIPT_PATH.."/" .. GetCurrentEnv().FILE_NAME
 function checkUpdate()
 	local ToUpdate = {}
-	ToUpdate.Version = 1.2
+	ToUpdate.Version = 1.3
 	ToUpdate.Name = "Blitzcrank - AssGrabber"
 	ToUpdate.Host = "raw.githubusercontent.com"
 	ToUpdate.VersionPath = "/AMBER17/BoL/master/Blitzcrank.version"
@@ -223,7 +223,7 @@ function Blitzcrank:myVariable()
 	VP = VPrediction()
 	self.TargetSelector = TargetSelector(TARGET_LESS_CAST_PRIORITY, 1400, DAMAGE_MAGICAL, false, true)
 	self.Spells = {
-	Q = { Range = 1000 , Delay = 0.55, Speed = math.huge, Width = 80, Ready = function() return myHero:CanUseSpell(0) == 0 end,},
+	Q = { Range = 1000 , Delay = 0.55, Speed = 1800, Width = 80, Ready = function() return myHero:CanUseSpell(0) == 0 end,},
 	W = { Ready = function() return myHero:CanUseSpell(1) == 0 end,},
 	E = { Ready = function() return myHero:CanUseSpell(2) == 0 end,},
 	R = { Range = 600 , Ready = function() return myHero:CanUseSpell(3) == 0 end,},
@@ -469,7 +469,7 @@ end
 
 local version = "2.92"
 local TESTVERSION = false
-local AUTO_UPDATE = true
+local AUTO_UPDATE = false
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/SidaBoL/Scripts/master/Common/VPrediction.lua?rand="..math.random(1,10000)
 local UPDATE_FILE_PATH = LIB_PATH.."vPrediction.lua"
