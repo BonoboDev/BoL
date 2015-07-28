@@ -39,8 +39,25 @@ end
 --------------------------------------------------------------
 --------------------------------------------------------------
 
+local smiteDmg
+function GetSmiteDmg()
+	if myHero.level <= 4 then
+		smiteDmg = 370 + (myHero.level*20)
+	end
+	if myHero.level > 4 and myHero.level <= 9 then
+		smiteDmg = 330 + (myHero.level*30)
+	end
+	if myHero.level > 9 and myHero.level <= 14 then
+		smiteDmg = 240 + (myHero.level*40)
+	end
+	if myHero.level > 14 then
+		smiteDmg = 100 + (myHero.level*50)
+	end
+	return smiteDmg
+end
+
 function foundSmite:__init()
-	_G.Smite = { Range = 550, slot = nil, Dmg = math.max(20*myHero.level+370,30*myHero.level+330,40*myHero.level+240,50*myHero.level+100), Ready = function() return myHero:CanUseSpell(Smite.slot) == 0 end}
+	_G.Smite = { Range = 550, slot = nil, Ready = function() return myHero:CanUseSpell(Smite.slot) == 0 end}
 	if myHero:GetSpellData(SUMMONER_1).name:find("smite") then
         Smite.slot = SUMMONER_1
     elseif myHero:GetSpellData(SUMMONER_2).name:find("smite") then
@@ -160,7 +177,7 @@ function basicSmite:OnTick()
 end
 
 function basicSmite:useSmite()
-	if _G.theMinion.health <= Smite.Dmg then
+	if _G.theMinion.health <= GetSmiteDmg then
 		CastSpell(Smite.slot, _G.theMinion)
 	end
 end
@@ -172,8 +189,8 @@ function basicSmite:OnDraw()
 		end
 		if _G.myMenu.Draw.drawSmitable then
 			if _G.drawMinion and GetDistance(_G.drawMinion) <= 550 then
-				self.drawDamage = _G.drawMinion.health - Smite.Dmg
-				if _G.drawMinion.health > Smite.Dmg then
+				self.drawDamage = _G.drawMinion.health - GetSmiteDmg
+				if _G.drawMinion.health > GetSmiteDmg then
 					DrawText3D(tostring(math.ceil(self.drawDamage)),_G.drawMinion.x, _G.drawMinion.y+450, _G.drawMinion.z, 24, 0xFFFF0000)
 				else
 					DrawText3D("Smitable",_G.drawMinion.x,_G.drawMinion.y+450, _G.drawMinion.z, 24, 0xff00ff00)
@@ -201,7 +218,7 @@ end
 
 function Chogath:useSmite()
 	if _G.theMinion and GetDistance(_G.theMinion) <= 350 and (myHero:CanUseSpell(_R) == READY) and Smite.Ready() and _G.myMenu.settings.Spell and _G.myMenu.settings.Smite then
-		if _G.theMinion.health < Smite.Dmg + self.myDmg then
+		if _G.theMinion.health < GetSmiteDmg + self.myDmg then
 			CastSpell(_R, _G.theMinion)
 			CastSpell(Smite.slot, _G.theMinion)
 		end
@@ -210,7 +227,7 @@ function Chogath:useSmite()
 			CastSpell(_R, _G.theMinion)
 		end
 	elseif _G.theMinion and GetDistance(_G.theMinion) <= 550 and Smite.Ready() and _G.myMenu.settings.Smite then
-		if _G.drawMinion.health < Smite.Dmg then
+		if _G.drawMinion.health < GetSmiteDmg then
 			CastSpell(Smite.slot, _G.theMinion)
 		end
 	end
@@ -225,8 +242,8 @@ function Chogath:OnDraw()
 			DrawCircle(myHero.x, myHero.y, myHero.z, 350, RGB(100, 44, 255))
 		end
 		if _G.drawMinion and GetDistance(_G.drawMinion) <= 350 and (myHero:CanUseSpell(_R) == READY) and Smite.Ready() then
-			self.drawDamage = _G.drawMinion.health - Smite.Dmg - self.myDmg
-			if _G.drawMinion.health > Smite.Dmg + self.myDmg then
+			self.drawDamage = _G.drawMinion.health - GetSmiteDmg - self.myDmg
+			if _G.drawMinion.health > GetSmiteDmg + self.myDmg then
 				DrawText3D(tostring(math.ceil(self.drawDamage)),_G.drawMinion.x, _G.drawMinion.y+450, _G.drawMinion.z, 24, 0xFFFF0000)
 			else
 				DrawText3D("R + Smite",_G.drawMinion.x,_G.drawMinion.y+450, _G.drawMinion.z, 24, 0xff00ff00)
@@ -239,8 +256,8 @@ function Chogath:OnDraw()
 				DrawText3D("R",_G.drawMinion.x,_G.drawMinion.y+450, _G.drawMinion.z, 24, 0xff00ff00)
 			end
 		elseif _G.drawMinion and GetDistance(_G.drawMinion) <= 550 and Smite.Ready() then
-			self.drawDamage = _G.drawMinion.health - Smite.Dmg
-			if _G.drawMinion.health > Smite.Dmg then
+			self.drawDamage = _G.drawMinion.health - GetSmiteDmg
+			if _G.drawMinion.health > GetSmiteDmg then
 				DrawText3D(tostring(math.ceil(self.drawDamage)),_G.drawMinion.x, _G.drawMinion.y+450, _G.drawMinion.z, 24, 0xFFFF0000)
 			else
 				DrawText3D("Smitable",_G.drawMinion.x,_G.drawMinion.y+450, _G.drawMinion.z, 24, 0xff00ff00)
@@ -267,7 +284,7 @@ end
 
 function Nunu:useSmite()
 	if _G.theMinion and GetDistance(_G.theMinion) <= 350 and (myHero:CanUseSpell(_Q) == READY) and Smite.Ready() and _G.myMenu.settings.Spell and _G.myMenu.settings.Smite then
-		if _G.theMinion.health < Smite.Dmg + self.myDmg then
+		if _G.theMinion.health < GetSmiteDmg + self.myDmg then
 			CastSpell(_Q, _G.theMinion)
 			CastSpell(Smite.slot, _G.theMinion)
 		end
@@ -276,7 +293,7 @@ function Nunu:useSmite()
 			CastSpell(_Q, _G.theMinion)
 		end
 	elseif _G.theMinion and GetDistance(_G.theMinion) <= 550 and Smite.Ready() and _G.myMenu.settings.Smite then
-		if _G.drawMinion.health < Smite.Dmg then
+		if _G.drawMinion.health < GetSmiteDmg then
 			CastSpell(Smite.slot, _G.theMinion)
 		end
 	end
@@ -310,8 +327,8 @@ function Nunu:OnDraw()
 			DrawCircle(myHero.x, myHero.y, myHero.z, 350, RGB(100, 44, 255))
 		end
 		if _G.drawMinion and GetDistance(_G.drawMinion) <= 350 and (myHero:CanUseSpell(_Q) == READY) and Smite.Ready() then
-			self.drawDamage = _G.drawMinion.health - Smite.Dmg - self.myDmg
-			if _G.drawMinion.health > Smite.Dmg + self.myDmg then
+			self.drawDamage = _G.drawMinion.health - GetSmiteDmg - self.myDmg
+			if _G.drawMinion.health > GetSmiteDmg + self.myDmg then
 				DrawText3D(tostring(math.ceil(self.drawDamage)),_G.drawMinion.x, _G.drawMinion.y+450, _G.drawMinion.z, 24, 0xFFFF0000)
 			else
 				DrawText3D("Q + Smite",_G.drawMinion.x,_G.drawMinion.y+450, _G.drawMinion.z, 24, 0xff00ff00)
@@ -324,8 +341,8 @@ function Nunu:OnDraw()
 				DrawText3D("Q",_G.drawMinion.x,_G.drawMinion.y+450, _G.drawMinion.z, 24, 0xff00ff00)
 			end
 		elseif _G.drawMinion and GetDistance(_G.drawMinion) <= 550 and Smite.Ready() then
-			self.drawDamage = _G.drawMinion.health - Smite.Dmg
-			if _G.drawMinion.health > Smite.Dmg then
+			self.drawDamage = _G.drawMinion.health - GetSmiteDmg
+			if _G.drawMinion.health > GetSmiteDmg then
 				DrawText3D(tostring(math.ceil(self.drawDamage)),_G.drawMinion.x, _G.drawMinion.y+450, _G.drawMinion.z, 24, 0xFFFF0000)
 			else
 				DrawText3D("Smitable",_G.drawMinion.x,_G.drawMinion.y+450, _G.drawMinion.z, 24, 0xff00ff00)
@@ -355,7 +372,7 @@ end
 
 function Volibear:useSmite()
 	if _G.theMinion and GetDistance(_G.theMinion) <= 350 and (myHero:CanUseSpell(_W) == READY) and Smite.Ready() and _G.myMenu.settings.Spell and _G.myMenu.settings.Smite then
-		if _G.theMinion.health < Smite.Dmg + self.myDmg then
+		if _G.theMinion.health < GetSmiteDmg + self.myDmg then
 			CastSpell(_W, _G.theMinion)
 		end
 	elseif _G.theMinion and GetDistance(_G.theMinion) <= 350 and (myHero:CanUseSpell(_W) == READY) and _G.myMenu.settings.Spell then
@@ -363,7 +380,7 @@ function Volibear:useSmite()
 			CastSpell(_W, _G.theMinion)
 		end
 	elseif _G.theMinion and GetDistance(_G.theMinion) <= 550 and Smite.Ready() and _G.myMenu.settings.Smite then
-		if _G.drawMinion.health < Smite.Dmg then
+		if _G.drawMinion.health < GetSmiteDmg then
 			CastSpell(Smite.slot, _G.theMinion)
 		end
 	end
@@ -378,8 +395,8 @@ function Volibear:OnDraw()
 			DrawCircle(myHero.x, myHero.y, myHero.z, 350, RGB(100, 44, 255))
 		end
 		if _G.drawMinion and GetDistance(_G.drawMinion) <= 350 and (myHero:CanUseSpell(_W) == READY) and Smite.Ready() then
-			self.drawDamage = _G.drawMinion.health - Smite.Dmg - self.myDmg
-			if _G.drawMinion.health > Smite.Dmg + self.myDmg then
+			self.drawDamage = _G.drawMinion.health - GetSmiteDmg - self.myDmg
+			if _G.drawMinion.health > GetSmiteDmg + self.myDmg then
 				DrawText3D(tostring(math.ceil(self.drawDamage)),_G.drawMinion.x, _G.drawMinion.y+450, _G.drawMinion.z, 24, 0xFFFF0000)
 			else
 				DrawText3D("W + Smite",_G.drawMinion.x,_G.drawMinion.y+450, _G.drawMinion.z, 24, 0xff00ff00)
@@ -392,8 +409,8 @@ function Volibear:OnDraw()
 				DrawText3D("W",_G.drawMinion.x,_G.drawMinion.y+450, _G.drawMinion.z, 24, 0xff00ff00)
 			end
 		elseif _G.drawMinion and GetDistance(_G.drawMinion) <= 550 and Smite.Ready() then
-			self.drawDamage = _G.drawMinion.health - Smite.Dmg
-			if _G.drawMinion.health > Smite.Dmg then
+			self.drawDamage = _G.drawMinion.health - GetSmiteDmg
+			if _G.drawMinion.health > GetSmiteDmg then
 				DrawText3D(tostring(math.ceil(self.drawDamage)),_G.drawMinion.x, _G.drawMinion.y+450, _G.drawMinion.z, 24, 0xFFFF0000)
 			else
 				DrawText3D("Smitable",_G.drawMinion.x,_G.drawMinion.y+450, _G.drawMinion.z, 24, 0xff00ff00)
@@ -423,7 +440,7 @@ end
 
 function RekSaiOlaf:useSmite()
 	if _G.theMinion and GetDistance(_G.theMinion) <= 350 and (myHero:CanUseSpell(_E) == READY) and Smite.Ready() and _G.myMenu.settings.Spell and _G.myMenu.settings.Smite then
-		if _G.theMinion.health < Smite.Dmg + self.myDmg then
+		if _G.theMinion.health < GetSmiteDmg + self.myDmg then
 			CastSpell(_E, _G.theMinion)
 		end
 	elseif _G.theMinion and GetDistance(_G.theMinion) <= 350 and (myHero:CanUseSpell(_E) == READY) and _G.myMenu.settings.Spell then
@@ -431,7 +448,7 @@ function RekSaiOlaf:useSmite()
 			CastSpell(_E, _G.theMinion)
 		end
 	elseif _G.theMinion and GetDistance(_G.theMinion) <= 550 and Smite.Ready() and _G.myMenu.settings.Smite then
-		if _G.drawMinion.health < Smite.Dmg then
+		if _G.drawMinion.health < GetSmiteDmg then
 			CastSpell(Smite.slot, _G.theMinion)
 		end
 	end
@@ -446,8 +463,8 @@ function RekSaiOlaf:OnDraw()
 			DrawCircle(myHero.x, myHero.y, myHero.z, 350, RGB(100, 44, 255))
 		end
 		if _G.drawMinion and GetDistance(_G.drawMinion) <= 350 and (myHero:CanUseSpell(_E) == READY) and Smite.Ready() then
-			self.drawDamage = _G.drawMinion.health - Smite.Dmg - self.myDmg
-			if _G.drawMinion.health > Smite.Dmg + self.myDmg then
+			self.drawDamage = _G.drawMinion.health - GetSmiteDmg - self.myDmg
+			if _G.drawMinion.health > GetSmiteDmg + self.myDmg then
 				DrawText3D(tostring(math.ceil(self.drawDamage)),_G.drawMinion.x, _G.drawMinion.y+450, _G.drawMinion.z, 24, 0xFFFF0000)
 			else
 				DrawText3D("E + Smite",_G.drawMinion.x,_G.drawMinion.y+450, _G.drawMinion.z, 24, 0xff00ff00)
@@ -460,8 +477,8 @@ function RekSaiOlaf:OnDraw()
 				DrawText3D("E",_G.drawMinion.x,_G.drawMinion.y+450, _G.drawMinion.z, 24, 0xff00ff00)
 			end
 		elseif _G.drawMinion and GetDistance(_G.drawMinion) <= 550 and Smite.Ready() then
-			self.drawDamage = _G.drawMinion.health - Smite.Dmg
-			if _G.drawMinion.health > Smite.Dmg then
+			self.drawDamage = _G.drawMinion.health - GetSmiteDmg
+			if _G.drawMinion.health > GetSmiteDmg then
 				DrawText3D(tostring(math.ceil(self.drawDamage)),_G.drawMinion.x, _G.drawMinion.y+450, _G.drawMinion.z, 24, 0xFFFF0000)
 			else
 				DrawText3D("Smitable",_G.drawMinion.x,_G.drawMinion.y+450, _G.drawMinion.z, 24, 0xff00ff00)
@@ -469,5 +486,4 @@ function RekSaiOlaf:OnDraw()
 		end
 	end
 end
-
 
