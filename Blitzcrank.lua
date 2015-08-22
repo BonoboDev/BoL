@@ -105,7 +105,7 @@ end
 local isHere = SCRIPT_PATH.."/" .. GetCurrentEnv().FILE_NAME
 function checkUpdate()
 	local ToUpdate = {}
-	ToUpdate.Version = 1.4
+	ToUpdate.Version = 1.41
 	ToUpdate.Name = "Blitzcrank - AssGrabber"
 	ToUpdate.Host = "raw.githubusercontent.com"
 	ToUpdate.VersionPath = "/AMBER17/BoL/master/Blitzcrank.version"
@@ -435,7 +435,7 @@ function Blitzcrank:CastW(unit)
 	else
 		local IsCollision = VP:CheckMinionCollision(unit, unit.pos, self.Spells.Q.Delay, self.Spells.Q.Width,self.Spells.Q.Range, self.Spells.Q.Speed, myHero.pos, nil, true)
 		if not IsCollision and myHero.mana > 200 then
-			if GetDistance(unit) <= self.Settings.Q.Range + 300 and GetDistance(unit) >= self.Settings.Q.Range and self.Spells.W.Ready() and self.Spells.Q.Ready() then
+			if GetDistance(unit) <= self.Spells.Q.Range + 300 and GetDistance(unit) >= self.Spells.Q.Range and self.Spells.W.Ready() and self.Spells.Q.Ready() then
 				CastSpell(_W)
 			end
 		end
