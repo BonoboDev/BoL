@@ -102,7 +102,7 @@ end
 local isHere = SCRIPT_PATH.."/" .. GetCurrentEnv().FILE_NAME
 function checkUpdate()
 	local ToUpdate = {}
-	ToUpdate.Version = 2.2
+	ToUpdate.Version = 2.21
 	ToUpdate.Name = "Darius - PentaDunk"
 	ToUpdate.Host = "raw.githubusercontent.com"
 	ToUpdate.VersionPath = "/AMBER17/BoL/master/Darius-PentaDunk.version"
