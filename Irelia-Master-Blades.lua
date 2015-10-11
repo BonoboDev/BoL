@@ -267,7 +267,7 @@ function LaneClearMode()
 			if ValidTarget(minion) and minion ~= nil then
 				qDmg = getDmg("Q", minion, myHero) + getDmg("AD", minion, myHero)
 				if GetDistance(minion) <= SkillQ.range and minion.health <= qDmg then 
-					Packet("S_CAST", {spellId = _Q, targetNetworkId = minion.networkID}):send()
+				CastSpell(_Q, minion)
 				end		 
 			end
 		end
@@ -279,7 +279,7 @@ end
 
 function CastQ(unit)
 	if GetDistance(unit) <= SkillQ.range and SkillQ.ready then
-		Packet("S_CAST", {spellId = _Q, targetNetworkId = unit.networkID}):send()
+		CastSpell(_Q, unit)
 	elseif Settings.combo.UseQminion then 
 		enemyMinions:update()
 		local bestMinion = nil
@@ -302,7 +302,7 @@ end
 
 function CastQharass(unit)
 	if GetDistance(unit) <= 320 and SkillQ.ready then
-		Packet("S_CAST", {spellId = _Q, targetNetworkId = unit.networkID}):send()
+		CastSpell(_Q, unit)
 	end
 end
 
@@ -310,21 +310,21 @@ end
 	
 function CastW(unit)
 	if GetDistance(unit) <= SkillW.range and SkillW.ready then
-			Packet("S_CAST", {spellId = _W}):send()
+			CastSpell(_w)
 			myHero:Attack(unit)
 	end	
 end
 
 function CastE(unit)
 	if GetDistance(unit) <= SkillE.range and SkillE.ready then
-			Packet("S_CAST", {spellId = _E, targetNetworkId = unit.networkID}):send()
+		CastSpell(_E, unit)
 	end	
 end
 
 function CastEstunt(unit)
 	if unit.health > myHero.health then
 		if GetDistance(unit) <= SkillE.range and SkillE.ready then
-			Packet("S_CAST", {spellId = _E, targetNetworkId = unit.networkID}):send()
+			CastSpell(_E, unit)
 		end	
 	end
 end
@@ -335,7 +335,7 @@ function CastR(unit)
 		CastPosition,  HitChance,  Position = VP:GetLineCastPosition(unit, SkillR.delay, SkillR.width, SkillR.range, SkillR.speed, myHero, false)	
 		
 		if HitChance >= 2 then
-			Packet("S_CAST", {spellId = _R, fromX = CastPosition.x, fromY = CastPosition.z, toX = CastPosition.x, toY = CastPosition.z}):send()
+		CastSpell(_R, CastPosition.x, CastPosition.z)
 		end
 	end
 end
@@ -345,7 +345,7 @@ function CastR2(unit)
 		CastPosition,  HitChance,  Position = VP:GetLineCastPosition(unit, SkillR.delay, SkillR.width, SkillR.range, SkillR.speed, myHero, false)	
 		
 		if HitChance >= 2 then
-			Packet("S_CAST", {spellId = _R, fromX = CastPosition.x, fromY = CastPosition.z, toX = CastPosition.x, toY = CastPosition.z}):send()
+			CastSpell(_R, CastPosition.x, CastPosition.z)
 		end
 	end
 end
