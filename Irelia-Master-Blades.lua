@@ -310,7 +310,7 @@ end
 	
 function CastW(unit)
 	if GetDistance(unit) <= SkillW.range and SkillW.ready then
-			CastSpell(_w)
+			CastSpell(_W)
 			myHero:Attack(unit)
 	end	
 end
