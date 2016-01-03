@@ -1,3 +1,9 @@
+class "ScriptUpdate"
+class 'AutoUpdate'
+
+require "VPrediction"
+require "SxOrbWalk"
+
 if myHero.charName ~= "Leona" then return end
 
 local  LeonaPutYourSunglasses_Version = 2.52
@@ -357,7 +363,7 @@ end
 
 
 function OnLoad()
-	
+	checkUpdate()
 	print("<b><font color=\"#FF001E\"></font></b><font color=\"#FF980F\"> Have a Good Game </font><font color=\"#FF001E\">| AMBER |</font>")
 	TargetSelector = TargetSelector(TARGET_MOST_AD, 1500, DAMAGE_MAGICAL, false, true)
 	Variables()
@@ -422,6 +428,7 @@ function Variables()
 	
 	
 	VP = VPrediction()
+	SxOrb = SxOrbWalk()
 	
 	_G.oldDrawCircle = rawget(_G, 'DrawCircle')
 	_G.DrawCircle = DrawCircle2	
