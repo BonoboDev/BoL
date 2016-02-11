@@ -1,1 +1,1 @@
-Twitch
+print("Twitch Loaded")
