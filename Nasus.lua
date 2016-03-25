@@ -37,6 +37,17 @@ function Nasus:__init()
     end
     require "MenuConfig"
 
+    local stacks = 0
+    for i = 1, myHero.buffCount do
+        local tBuff = myHero:getBuff(i)
+        if BuffIsValid(tBuff) and tBuff.name == "NasusQStacks" then
+        	stacks = tBuff.stacks
+        end
+    end
+
+    print("<b><font color=\"#F62459\">Nasus - QCleaner</font> <font color=\"#E08283\">Loaded</font>")
+    print("<b><font color=\"#F62459\">Nasus - QCleaner</font> <font color=\"#E08283\">Current Stack: "..stacks.."</font>")
+
 	self.qStack = 0
 	self.lastSet = 0
 	self.VP = VPrediction()
@@ -53,33 +64,48 @@ function Nasus:__init()
 end
 
 function Nasus:Menu()
-	self.Settings = MenuConfig("amberNasus", "Nasus")
+	self.Settings = MenuConfig("amberNasus", "Nasus - QCleaner")
+		self.Settings:Section("Fight")
 		self.Settings:Menu("combo", "Combo Settings")
+			self.Settings.combo:Section("Key")
 			self.Settings.combo:KeyBinding("active", "Combo Key", 32)
+			self.Settings.combo:Section("Settings")
 			self.Settings.combo:Boolean("useQ", "Use (Q)", true)
 			self.Settings.combo:Boolean("useW", "Use (W)", true)
 			self.Settings.combo:Boolean("useE", "Use (E)", true)
-
+		self.Settings:Section("Farm")
 		self.Settings:Menu("laneclear", "Lane Clear Settings")
+			self.Settings.laneclear:Section("Key")
 			self.Settings.laneclear:KeyBinding("active", "Lane Clear Key", GetKey("V"))
+			self.Settings.laneclear:Section("Settings")
 			self.Settings.laneclear:Boolean("useQ", "Use (Q)", true)
 			self.Settings.laneclear:Boolean("useE", "Use (E)", false)
-			self.Settings.laneclear:Slider("manaE", "Mana manager (> %)", 70, 0, 100, 5)
+			self.Settings.laneclear:Slider("manaE", "(E) Mana manager (> %)", 70, 0, 100, 5)
 		self.Settings:Menu("jungleclear", "Jungle Clear Settings")
+			self.Settings.jungleclear:Section("Key")
 			self.Settings.jungleclear:KeyBinding("active", "Jungle Clear Key", GetKey("V"))
+			self.Settings.jungleclear:Section("Settings")
 			self.Settings.jungleclear:Boolean("useQ", "Use (Q)", true)
 			self.Settings.jungleclear:Boolean("useE", "Use (E)", true)
-			self.Settings.jungleclear:Slider("manaE", "Mana manager (> %)", 70, 0, 100, 5)
+			self.Settings.jungleclear:Slider("manaE", "(E) Mana manager (> %)", 70, 0, 100, 5)
 		self.Settings:Menu("lasthit", "Last Hit Settings")
+			self.Settings.lasthit:Section("Settings")
 			self.Settings.lasthit:KeyBinding("active", "Last Hit Key", GetKey("X"))
 			self.Settings.lasthit:Boolean("useQ", "Use (Q)", true)
+		self.Settings:Section("Other")
 		self.Settings:Menu("misc", "Misc Settings")
+			self.Settings.misc:Section("Settings")
 			self.Settings.misc:Boolean("autoR", "Use Auto (R)", true)
-			self.Settings.misc:Slider("rLife", "Life Under (< %)", 15, 0, 100, 5)
+			self.Settings.misc:Slider("rLife", "Life Under (< %)", 20, 0, 100, 5)
 		self.Settings:Menu("drawing", "Draw Settings")
+			self.Settings.drawing:Section("Minion")
 			self.Settings.drawing:Boolean("Minion", "Draw Circle on Minion", true)
+			self.Settings.drawing:Section("Target")
 			self.Settings.drawing:Boolean("Target", "Draw Circle on Target", true)
 			self.Settings.drawing:Boolean("Damage", "Draw (Q) Damage on Target", true)
+		self.Settings:Section("Info")
+            self.Settings:Info("Author: AMBER - Aurora Scripters")
+            self.Settings:Info("Version: 1.0")
 end
 
 function Nasus:OnDraw()
@@ -115,7 +141,7 @@ function Nasus:OnDraw()
 		local xOff = ({['AniviaEgg'] = -0.1,['Darius'] = -0.05,['Renekton'] = -0.05,['Sion'] = -0.05,['Thresh'] = -0.03,})[unit.charName]
 		local x = Center.x + ((xOff or 0) * 140) - 66
 		dmg = unit.health - self:qDmg(unit)
-		DrawLine(x + ((unit.health /unit.maxHealth) * 104),y, x+(((dmg > 0 and dmg or 0) / unit.maxHealth) * 104),y,9, GetDistance(unit) < 3000 and ARGB(180,205,173,0))
+		DrawLine(x + ((unit.health /unit.maxHealth) * 104),y, x+(((dmg > 0 and dmg or 0) / unit.maxHealth) * 104),y,9, GetDistance(unit) < 3000 and ARGB(180,255,102,255))
 		end
 	end
 end
