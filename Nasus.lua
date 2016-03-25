@@ -49,6 +49,7 @@ function Nasus:__init()
 	self:Menu()
 	AddTickCallback(function() self:OnTick() end)
 	AddDrawCallback(function() self:OnDraw() end)
+	AddProcessAttackCallback(function(...) self:OnProcessAttack(...) end)
 end
 
 function Nasus:Menu()
@@ -62,7 +63,7 @@ function Nasus:Menu()
 		self.Settings:Menu("laneclear", "Lane Clear Settings")
 			self.Settings.laneclear:KeyBinding("active", "Lane Clear Key", GetKey("V"))
 			self.Settings.laneclear:Boolean("useQ", "Use (Q)", true)
-			self.Settings.laneclear:Boolean("useE", "Use (E)", true)
+			self.Settings.laneclear:Boolean("useE", "Use (E)", false)
 			self.Settings.laneclear:Slider("manaE", "Mana manager (> %)", 70, 0, 100, 5)
 		self.Settings:Menu("jungleclear", "Jungle Clear Settings")
 			self.Settings.jungleclear:KeyBinding("active", "Jungle Clear Key", GetKey("V"))
@@ -72,6 +73,9 @@ function Nasus:Menu()
 		self.Settings:Menu("lasthit", "Last Hit Settings")
 			self.Settings.lasthit:KeyBinding("active", "Last Hit Key", GetKey("X"))
 			self.Settings.lasthit:Boolean("useQ", "Use (Q)", true)
+		self.Settings:Menu("misc", "Misc Settings")
+			self.Settings.misc:Boolean("autoR", "Use Auto (R)", true)
+			self.Settings.misc:Slider("rLife", "Life Under (< %)", 15, 0, 100, 5)
 		self.Settings:Menu("drawing", "Draw Settings")
 			self.Settings.drawing:Boolean("Minion", "Draw Circle on Minion", true)
 			self.Settings.drawing:Boolean("Target", "Draw Circle on Target", true)
@@ -128,6 +132,13 @@ function Nasus:findLowestMinion(table)
 	return isMinion
 end
 
+function Nasus:OnProcessAttack(unit,spell)
+	if not self.Settings.misc.autoR then return end
+	if unit and spell and unit.type == myHero.type and unit.team ~= myHero.team and spell.target then
+		if spell.target == myHero and myHero.health*100/myHero.maxHealth <= self.Settings.misc.rLife then CastSpell(_R) end
+	end
+end
+
 function Nasus:OnTick()
 	self.TargetSelector:update()
 	self.minionTable:update()
@@ -138,6 +149,19 @@ function Nasus:OnTick()
 	self:JungleClear(self.Settings.jungleclear.active)
 	self:LastHit(self.Settings.lasthit.active)
 	self:Combo(self.Settings.combo.active)
+	self:AutoR(self.Settings.misc.autoR)
+end
+
+function Nasus:AutoR(isActive)
+	if not isActive then return end
+	if myHero.health*100/myHero.maxHealth <= self.Settings.misc.rLife and self:ShouldCastR() then CastSpell(_R) end
+end
+
+function Nasus:ShouldCastR()
+	for uid, enemy in pair(GetEnemyHeroes()) do
+		if ValidTarget(enemy) and GetDistance(enemy) <= 1000 then return true end
+	end
+	return false
 end
 
 function Nasus:SetqStack()
