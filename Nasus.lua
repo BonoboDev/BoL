@@ -42,8 +42,8 @@ function Nasus:__init()
 	self.VP = VPrediction()
 	self.TargetSelector = TargetSelector(TARGET_LESS_CAST_PRIORITY, 650 , DAMAGE_PHYSICAL, false, true)
 
-	self.jungleTable = minionManager(MINION_JUNGLE, myHero.range + 180, myHero, MINION_SORT_MAXHEALTH_DEC)
-	self.minionTable = minionManager(MINION_ENEMY, myHero.range + 180, myHero, MINION_SORT_MAXHEALTH_DEC)
+	self.jungleTable = minionManager(MINION_JUNGLE, myHero.range + 185, myHero, MINION_SORT_MAXHEALTH_DEC)
+	self.minionTable = minionManager(MINION_ENEMY, myHero.range + 185, myHero, MINION_SORT_MAXHEALTH_DEC)
 
 
 	self:Menu()
@@ -158,7 +158,7 @@ function Nasus:AutoR(isActive)
 end
 
 function Nasus:ShouldCastR()
-	for uid, enemy in pair(GetEnemyHeroes()) do
+	for uid, enemy in pairs(GetEnemyHeroes()) do
 		if ValidTarget(enemy) and GetDistance(enemy) <= 1000 then return true end
 	end
 	return false
