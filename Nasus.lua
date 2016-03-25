@@ -45,8 +45,8 @@ function Nasus:__init()
         end
     end
 
-    print("<b><font color=\"#F62459\">Nasus - QCleaner</font> <font color=\"#E08283\">Loaded</font>")
-    print("<b><font color=\"#F62459\">Nasus - QCleaner</font> <font color=\"#E08283\">Current Stack: "..stacks.."</font>")
+    print("<b><font color=\"#F62459\">Nasus - Soul Drinker</font> <font color=\"#E08283\">Loaded</font>")
+    print("<b><font color=\"#F62459\">Nasus - Soul Drinker</font> <font color=\"#E08283\">Current Stack: "..stacks.."</font>")
 
 	self.qStack = 0
 	self.lastSet = 0
@@ -64,7 +64,7 @@ function Nasus:__init()
 end
 
 function Nasus:Menu()
-	self.Settings = MenuConfig("amberNasus", "Nasus - QCleaner")
+	self.Settings = MenuConfig("amberNasus", "Nasus - Soul Drinker")
 		self.Settings:Section("Fight")
 		self.Settings:Menu("combo", "Combo Settings")
 			self.Settings.combo:Section("Key")
