@@ -1,5 +1,7 @@
 if myHero.charName ~= "Garen" then return end
+
 class "Garen"
+
 
 function Garen:DrawCircleNextLvl(x, y, z, radius, width, color, chordlength)
     radius = radius or 300
@@ -156,6 +158,7 @@ function Garen:OnTick()
 
 	self:Combo(self.Settings.combo.active)
 	self:AutoR(self.Settings.killsteal.autoR)
+
 	self:CheckEOrb()
 end
 
@@ -204,6 +207,7 @@ end
 
 function Garen:AutoR(isActive)
 	if not isActive then return end
+	
 	for uid, enemy in pairs(GetEnemyHeroes()) do
 		if ValidTarget(enemy) then self:CastR(enemy) end
 	end
@@ -213,6 +217,7 @@ function Garen:Combo(isActive)
 	if not isActive then return end
 	
 	local unit  = self.TargetSelector.target
+
 	if ValidTarget(unit) then
 		if self.Settings.combo.useQ then self:CastQ(unit) end
 		if self.Settings.combo.useW then self:CastW(unit) end
