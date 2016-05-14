@@ -105,7 +105,7 @@ function Blitzcrank:myVariable()
 	VP = VPrediction()
 	self.TargetSelector = TargetSelector(TARGET_LESS_CAST_PRIORITY, 1400, DAMAGE_MAGICAL, false, true)
 	self.Spells = {
-	Q = { Range = 1000 , Delay = 0.55, Speed = 1800, Width = 80, Ready = function() return myHero:CanUseSpell(0) == 0 end,},
+	Q = { Range = 950 , Delay = 0.4, Speed = 1800, Width = 80, Ready = function() return myHero:CanUseSpell(0) == 0 end,},
 	W = { Ready = function() return myHero:CanUseSpell(1) == 0 end,},
 	E = { Ready = function() return myHero:CanUseSpell(2) == 0 end,},
 	R = { Range = 600 , Ready = function() return myHero:CanUseSpell(3) == 0 end,},
