@@ -1,4 +1,4 @@
--- AmberCarries 0.112 | Vayne - Cait - Twitch - Lucian
+-- AmberCarries 0.113 | Vayne - Cait - Twitch - Lucian
 LoadEncryptedScript([[qYVEtnb9hfLl4RdMZCT5U5GNjY9bioN4UE8Xm7345StlnsnLWl3akl5K5/36sl9KdbWbA2oDAtXsgDKK/rR3FVfYNchsctag9jNjSNEiLNsxvMXWPRynquC2TUMdbI1d3AsYGIqfTkUcqmSNVNOwa7
 5Fky7GQK3eCTFDVRe7kL+DDVNEB+Qqokk6Je0aCECP4NvhIqddWQlsPYDU+BqW6K+aFucHgq60DUb4G6VvB7jqZbtDhd+pX5iYs9ZstMN8xpW24k3moURJFykYA9kytXV5fnUAfcMCuXYe/+TOZZX9
 DF+0EwIhwU1c1wTwQLcMtld4QJDfyvfWaCDYBEnY77+ckn064Vzfcpj9LgetnKJwk55JPn6WehvuoXq+S2eD1y83KGzmL2HxD9WNuiitO05ybWBzC8lOjGQDdECUKV5g3nQCi64528zP0KKnClLu4O
